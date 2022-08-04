@@ -1,9 +1,9 @@
-#variables:
-#   GCP_ACCOUNT: service account
-#   GCP_KEY: service account JSON key
-#   GCP_PROJECT_ID: GCP progect id
-#   GCP_REPOSITORY: ARTIFACT REGISTRY repository name
-#   GCP_HOSTNAME: ARTIFACT REGISTRY hosename
+variables:
+   GCP_ACCOUNT: service account
+   GCP_KEY: service account JSON key
+   GCP_PROJECT_ID: GCP progect id
+   GCP_REPOSITORY: ARTIFACT REGISTRY repository name
+   GCP_HOSTNAME: ARTIFACT REGISTRY hosename
       
 stages:
   - build
@@ -31,6 +31,6 @@ push-image:
     - docker tag img.greattree.com.tw/${CI_PROJECT_NAME} ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME}
     - docker push ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/si-docker/${CI_PROJECT_NAME}
     - docker rmi img.greattree.com.tw/${CI_PROJECT_NAME}
-    - docker rmi ${HOSTNAME}-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME}
+    - docker rmi ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME}
   only:
     - master
