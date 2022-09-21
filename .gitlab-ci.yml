@@ -14,10 +14,9 @@ build-image:
   tags:
     - docker-build
   script:
-    - docker build -t img.greattree.com.tw/${CI_PROJECT_NAME} .
-    - docker push img.greattree.com.tw/${CI_PROJECT_NAME}
+    - docker build -t ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME} .
   only:
-    - master
+    - main
 
 push-image:
   image: google/cloud-sdk
@@ -28,9 +27,7 @@ push-image:
     - echo "${GCP_KEY}" >> /tmp/gcpkey.json
     - gcloud auth activate-service-account ${GCP_ACCOUNT} --key-file=/tmp/gcpkey.json
     - gcloud auth configure-docker ${GCP_HOSTNAME} -q
-    - docker tag img.greattree.com.tw/${CI_PROJECT_NAME} ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME}
-    - docker push ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/si-docker/${CI_PROJECT_NAME}
-    - docker rmi img.greattree.com.tw/${CI_PROJECT_NAME}
+    - docker push ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${CI_PROJECT_NAME}
     - docker rmi ${GCP_HOSTNAME}/${GCP_PROJECT_ID}/${GCP_REPOSITORY}/${CI_PROJECT_NAME}
   only:
-    - master
+    - main

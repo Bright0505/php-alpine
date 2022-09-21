@@ -1,9 +1,7 @@
-.env
-mysql-dump/*
-!mysql-dump/.gitkeep
-/data
-html/*
-!html/info.php
+ssl/*
+!ssl/.gitkeep
+www/*
+!www/.gitkeep
 
 # Tmp files to always-ignore extensions
 *.diff
