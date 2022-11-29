@@ -4,7 +4,6 @@ services:
     image: nginx
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./www/:/www/:rw
       - ./ssl:/ssl
@@ -12,10 +11,9 @@ services:
     links:
       - php1
     restart: always
+
   php1:
     build: ./
-    ports:
-      - "9000:9000"
     volumes:
       - ./www/:/www/:rw
       - ./php/php.ini:/usr/local/etc/php/php.ini

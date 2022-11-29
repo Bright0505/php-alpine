@@ -2,7 +2,7 @@ ssl/*
 !ssl/.gitkeep
 www/*
 !www/.gitkeep
-
+.env
 # Tmp files to always-ignore extensions
 *.diff
 *.err

@@ -161,7 +161,12 @@ STOPSIGNAL SIGQUIT
 COPY ./php/php.ini /usr/local/etc/php/php.ini
 COPY ./php/php-fpm.conf /usr/local/etc/php-fpm.conf
 
+
 WORKDIR /www
+
+# Create nginx user and group
+RUN addgroup -S nginx && adduser -S nginx -G nginx
+RUN chown -R nginx:nginx /www
 
 EXPOSE 9000
 
