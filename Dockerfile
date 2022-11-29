@@ -1,8 +1,8 @@
 FROM alpine:3.16
 
-ENV PHP_VERSION 7.4.30
-ENV PHP_SHA256 ea72a34f32c67e79ac2da7dfe96177f3c451c3eefae5810ba13312ed398ba70d
-ENV GPG_KEYS 5A52880781F755608BF815FC910DEB46F53EA312 42670A7FE4D0441C8E4632349E4FDC074A4EF02D
+ENV PHP_VERSION 8.1.13
+ENV PHP_SHA256 b15ef0ccdd6760825604b3c4e3e73558dcf87c75ef1d68ef4289d8fd261ac856
+ENV GPG_KEYS F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD
 ENV COMPOSER_VERSION 2.3.10
 
 ENV PHP_PACKET bcmath gd intl mysqli opcache pdo_mysql zip
@@ -23,9 +23,6 @@ RUN apk add --no-cache \
 		icu-dev \
 	#install zip packge
 		libzip-dev
-
-# ensure www-data user exists
-RUN set -eux; adduser -u 82 -D -S -G www-data www-data
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN set -eux; \
@@ -165,7 +162,7 @@ COPY ./php/php-fpm.conf /usr/local/etc/php-fpm.conf
 WORKDIR /www
 
 # Create nginx user and group
-RUN addgroup -S nginx && adduser -S nginx -G nginx
+RUN set -eux; addgroup -S nginx; adduser -S nginx -G nginx
 RUN chown -R nginx:nginx /www
 
 EXPOSE 9000
