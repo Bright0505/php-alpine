@@ -24,9 +24,6 @@ RUN apk add --no-cache \
 	#install zip packge
 		libzip-dev
 
-# ensure www-data user exists
-RUN set -eux; adduser -u 82 -D -S -G www-data www-data
-
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN set -eux; \
 	mkdir -p "$PHP_INI_DIR/conf.d"; \
