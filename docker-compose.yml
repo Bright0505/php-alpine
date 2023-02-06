@@ -19,6 +19,8 @@ services:
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     restart: always
+    links:
+      - mysql
     cap_add:
       - SYS_PTRACE
   php2:
@@ -28,6 +30,8 @@ services:
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     restart: always
+    links:
+      - mysql
     cap_add:
       - SYS_PTRACE
   mysql:
