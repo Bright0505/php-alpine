@@ -22,7 +22,7 @@ RUN apk add --no-cache \
 	#install intl packge
 		icu-dev \
 	#install zip packge
-		libzip-dev
+		libzip-dev 
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN set -eux; \
@@ -72,6 +72,8 @@ RUN set -eux; \
 		openssl-dev \
 		readline-dev \
 		sqlite-dev \
+		imagemagick-dev \
+		libtool \
 	; \
 # make sure musl's iconv doesn't get used (https://www.php.net/manual/en/intro.iconv.php)
 	rm -vf /usr/include/iconv.h; \
@@ -108,8 +110,8 @@ RUN set -eux; \
 		$(test "$gnuArch" = 's390x-linux-musl' && echo '--without-pcre-jit') \
 		--disable-cgi \
 		--enable-fpm \
-		--with-fpm-user=www-data \
-		--with-fpm-group=www-data \
+		--with-fpm-user=nginx \
+		--with-fpm-group=nginx \
 	; \
 	make -j "$(nproc)"; \
 	find -type f -name '*.a' -delete; \
@@ -131,6 +133,9 @@ RUN set -eux; \
 			| sort -u \
 			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)"; \
+	# install imagick
+	pecl install imagick; \
+    docker-php-ext-enable imagick; \
 	apk add --no-cache $runDeps; \
 	apk del --no-network .build-deps; \
 	pecl update-channels; \
