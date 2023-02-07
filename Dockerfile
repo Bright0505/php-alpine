@@ -5,7 +5,7 @@ ENV PHP_SHA256 b15ef0ccdd6760825604b3c4e3e73558dcf87c75ef1d68ef4289d8fd261ac856
 ENV GPG_KEYS F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD
 ENV COMPOSER_VERSION 2.3.10
 
-ENV PHP_PACKET bcmath gd intl mysqli opcache pdo_mysql zip
+ENV PHP_PACKET bcmath gd intl mysqli opcache pdo_mysql zip bz2
 
 ENV PHPIZE_DEPS autoconf dpkg-dev dpkg file g++ gcc libc-dev make pkgconf re2c 
 
@@ -154,7 +154,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer; \
 ENTRYPOINT ["docker-php-entrypoint"]
 
 #install php packet
-RUN	docker-php-ext-install -j$(nproc) $PHP_PACKET
+RUN	docker-php-ext-install -j "$(nproc)" $PHP_PACKET
 
 # Override stop signal to stop process gracefully
 STOPSIGNAL SIGQUIT
@@ -167,7 +167,7 @@ COPY ./php/php-fpm.conf /usr/local/etc/php-fpm.conf
 WORKDIR /www
 
 # Create nginx user and group
-RUN set -eux; addgroup -S nginx; adduser -S nginx -G nginx
+RUN set -eux; addgroup -g 1000 -S nginx; adduser -u 1000 -S nginx -G nginx
 RUN chown -R nginx:nginx /www
 
 EXPOSE 9000

@@ -9,22 +9,9 @@ services:
       - ./ssl:/ssl
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     links:
-      - mysql
       - php1
-      - php2
     restart: always
   php1:
-    build: ./
-    volumes:
-      - ./www/:/www/:rw
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-      - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf
-    restart: always
-    links:
-      - mysql
-    cap_add:
-      - SYS_PTRACE
-  php2:
     build: ./
     volumes:
       - ./www/:/www/:rw
@@ -48,6 +35,5 @@ services:
       - 3306:3306
     volumes:
       - mysqldata:/var/lib/mysql
-      - ./lnmp/mysql-dump:/docker-entrypoint-initdb.d
 volumes:
   mysqldata:
