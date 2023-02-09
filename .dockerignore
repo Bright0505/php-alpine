@@ -1,4 +1,5 @@
 .git
 .gitignore
+./www
 README.md
 CHANGELOG.md
