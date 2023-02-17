@@ -3,17 +3,19 @@ services:
   nginx:
     image: nginx
     volumes:
-      - app:/var/www/html:rw
+      - /mnt/nextcloud/www:/var/www/html:rw
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/ssl
     ports:
       - "80:80"
+      - "443:443"
     links:
       - php1
     restart: always
   php1:
     image: nextcloud:fpm-alpine
     volumes:
-      - app:/var/www/html:rw
+      - /mnt/nextcloud/www:/var/www/html:rw
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -34,7 +36,4 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - mysqldata:/var/lib/mysql
-volumes:
-  mysqldata:
-  app:
+      - /mnt/nextcloud/mysql:/var/lib/mysql
