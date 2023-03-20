@@ -11,6 +11,7 @@ services:
       - "443:443"
     links:
       - php1
+      - collabora
     restart: always
   php1:
     image: nextcloud:fpm-alpine
@@ -24,6 +25,15 @@ services:
       MYSQL_HOST: mysql
     links:
       - mysql
+  collabora:
+    image: collabora/code
+    restart: always
+    privileged: true
+    environment:
+      - "username=admin"
+      - "password=admin@123"
+      - "domain=cloud.lexnovia.com"
+      - "extra_params=--o:ssl.enable=false --o:ssl.termination=true"
   mysql:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
